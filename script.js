@@ -392,7 +392,7 @@ class MemoryGame {
         // 1. Build list of all available images: ['assets/card1.png', 'assets/card2.png', ...]
         const allImages = [];
         for (let i = 1; i <= this.totalAvailableImages; i++) {
-            allImages.push(`assets/card${i}.png`);
+            allImages.push(`assets/card${i}.jpg`);
         }
 
         // 2. Shuffle all available cards to get a randomized pull
