@@ -246,7 +246,7 @@ class MemoryGame {
         // e.g. If you have card1.png through card8.png, keep this at 8.
         // If you add up to card20.png, change this number to 20!
         // ====================================================================
-        this.totalAvailableImages = 8; 
+        this.totalAvailableImages = 20; 
 
         // Difficulty Configuration
         this.difficulty = 'medium'; // 'easy' (6 pairs) | 'medium' (8 pairs) | 'hard' (12 pairs)
