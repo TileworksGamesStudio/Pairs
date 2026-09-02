@@ -233,7 +233,7 @@ class ConfettiCannon {
 
 /**
  * ============================================================================
- * CORE GAME CONTROLLER (ASSETS FOLDER INTEGRATION)
+ * CORE GAME CONTROLLER (DYNAMIC RANDOM ASSET DISCOVERY)
  * ============================================================================
  */
 class MemoryGame {
@@ -241,28 +241,16 @@ class MemoryGame {
         this.sound = new SoundEngine();
         this.confetti = new ConfettiCannon('confetti-canvas');
 
-        // Define filenames located in your assets folder
-        this.cardImageFiles = [
-            'card1.png',
-            'card2.png',
-            'card3.png',
-            'card4.png',
-            'card5.png',
-            'card6.png',
-            'card7.png',
-            'card8.png',
-            'card9.png',
-            'card10.png',
-            'card11.png',
-            'card12.png'
-        ];
+        // Dynamic asset pool discovered from the assets folder
+        this.discoveredImages = [];
+        this.maxProbedCards = 60; // Max number of cardX.png files to check for
 
         // Difficulty Configuration
         this.difficulty = 'medium'; // 'easy' | 'medium' | 'hard'
         this.diffConfigs = {
-            easy: { pairs: 6, cols: 'easy' },     // Uses 6 images
-            medium: { pairs: 8, cols: 'medium' }, // Uses 8 images
-            hard: { pairs: 12, cols: 'hard' }     // Uses 12 images
+            easy: { pairs: 6, cols: 'easy' },
+            medium: { pairs: 8, cols: 'medium' },
+            hard: { pairs: 12, cols: 'hard' }
         };
 
         // Game State Variables
@@ -305,6 +293,38 @@ class MemoryGame {
         this.initEventListeners();
         this.updateAudioIcons();
         this.updateMenuBestScore();
+
+        // Scan folder for assets immediately
+        this.discoverAssets();
+    }
+
+    /**
+     * Auto-probes the assets folder to build a list of existing image files
+     */
+    async discoverAssets() {
+        const checkImage = (src) => {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => resolve(src);
+                img.onerror = () => resolve(null);
+                img.src = src;
+            });
+        };
+
+        const checks = [];
+        for (let i = 1; i <= this.maxProbedCards; i++) {
+            checks.push(checkImage(`assets/card${i}.png`));
+        }
+
+        const results = await Promise.all(checks);
+        this.discoveredImages = results.filter(Boolean);
+
+        // Fallback safety if no assets exist yet
+        if (this.discoveredImages.length === 0) {
+            for (let i = 1; i <= 12; i++) {
+                this.discoveredImages.push(`assets/card${i}.png`);
+            }
+        }
     }
 
     initEventListeners() {
@@ -379,7 +399,7 @@ class MemoryGame {
         }
     }
 
-    startNewGame() {
+    async startNewGame() {
         this.stopTimer();
         this.resetTurnState();
         this.moves = 0;
@@ -398,14 +418,28 @@ class MemoryGame {
         // Reset HUD displays
         this.updateHUD();
 
-        // Select the slice of images needed for the current difficulty
-        const selectedImages = this.cardImageFiles.slice(0, this.totalPairs);
+        // Ensure assets are loaded
+        if (this.discoveredImages.length === 0) {
+            await this.discoverAssets();
+        }
+
+        // 1. Shuffle the full pool of available images to ensure full randomness
+        const randomPool = this.shuffle([...this.discoveredImages]);
+
+        // 2. Pull the exact required amount for the current difficulty
+        const selectedImages = [];
+        for (let i = 0; i < this.totalPairs; i++) {
+            // Loop back over pool if the folder has fewer images than total pairs
+            selectedImages.push(randomPool[i % randomPool.length]);
+        }
+
+        // 3. Duplicate into pairs and shuffle the board
         let deck = [...selectedImages, ...selectedImages];
         deck = this.shuffle(deck);
 
-        // Build DOM Card Elements using assets/ images
-        deck.forEach((imageName, index) => {
-            const card = this.createCardElement(imageName, index);
+        // Build DOM Card Elements
+        deck.forEach((imagePath, index) => {
+            const card = this.createCardElement(imagePath, index);
             this.dom.board.appendChild(card);
         });
 
@@ -413,11 +447,13 @@ class MemoryGame {
         this.startTimer();
     }
 
-    createCardElement(imageName, index) {
+    createCardElement(imagePath, index) {
         const card = document.createElement('div');
         card.classList.add('card');
-        card.dataset.id = imageName;
+        card.dataset.id = imagePath;
         card.style.animationDelay = `${index * 0.03}s`;
+
+        const filename = imagePath.split('/').pop().replace(/\.[^/.]+$/, '');
 
         card.innerHTML = `
             <div class="card-inner">
@@ -430,10 +466,10 @@ class MemoryGame {
                 </div>
                 <div class="card-face card-front">
                     <div class="card-front-content">
-                        <img src="assets/${imageName}" 
-                             alt="Card ${imageName}" 
+                        <img src="${imagePath}" 
+                             alt="Card ${filename}" 
                              draggable="false"
-                             onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\\'font-weight:900; color:#00f0ff; font-size:1.8rem;\\'>${imageName.replace(/\.[^/.]+$/, '')}</span>';" />
+                             onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\\'font-weight:900; color:#00f0ff; font-size:1.8rem;\\'>${filename}</span>';" />
                     </div>
                 </div>
             </div>
