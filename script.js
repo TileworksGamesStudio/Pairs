@@ -1,7 +1,6 @@
 /**
  * ============================================================================
  * SYNTHESIZED SOUND FX ENGINE (Native Web Audio API)
- * Zero external audio files required - works immediately without broken paths!
  * ============================================================================
  */
 class SoundEngine {
@@ -50,7 +49,7 @@ class SoundEngine {
         if (this.muted) return;
         this.init();
         const now = this.ctx.currentTime;
-        const baseFreq = 440 * Math.pow(1.2, Math.min(combo - 1, 5)); // Higher pitch on combos
+        const baseFreq = 440 * Math.pow(1.2, Math.min(combo - 1, 5));
 
         [baseFreq, baseFreq * 1.25, baseFreq * 1.5].forEach((freq, idx) => {
             const osc = this.ctx.createOscillator();
@@ -95,7 +94,7 @@ class SoundEngine {
         if (this.muted) return;
         this.init();
         const now = this.ctx.currentTime;
-        const freqs = [523.25, 659.25, 783.99]; // C5, E5, G5
+        const freqs = [523.25, 659.25, 783.99];
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
 
@@ -115,7 +114,7 @@ class SoundEngine {
     playWinFanfare() {
         if (this.muted) return;
         this.init();
-        const notes = [261.63, 329.63, 392.00, 523.25]; // C4, E4, G4, C5
+        const notes = [261.63, 329.63, 392.00, 523.25];
         const now = this.ctx.currentTime;
 
         notes.forEach((freq, i) => {
@@ -234,28 +233,7 @@ class ConfettiCannon {
 
 /**
  * ============================================================================
- * EMBEDDED HIGH-DEFINITION VECTOR ASSETS
- * Crisp glowing cyberpunk runes (fallback-free, instant render)
- * ============================================================================
- */
-const CARD_ICONS = [
-    { id: 'cube', svg: `<svg viewBox="0 0 64 64" fill="none"><polygon points="32,4 58,18 58,46 32,60 6,46 6,18" stroke="#00f0ff" stroke-width="3.5" fill="rgba(0,240,255,0.12)"/><line x1="32" y1="4" x2="32" y2="60" stroke="#00f0ff" stroke-width="2.5"/><line x1="6" y1="18" x2="58" y2="46" stroke="#00f0ff" stroke-width="2.5"/><line x1="58" y1="18" x2="6" y2="46" stroke="#00f0ff" stroke-width="2.5"/></svg>` },
-    { id: 'prism', svg: `<svg viewBox="0 0 64 64" fill="none"><polygon points="32,6 60,54 4,54" stroke="#a855f7" stroke-width="3.5" fill="rgba(168,85,247,0.12)"/><circle cx="32" cy="38" r="8" stroke="#a855f7" stroke-width="2.5" fill="rgba(168,85,247,0.3)"/><line x1="32" y1="6" x2="32" y2="30" stroke="#a855f7" stroke-width="2"/></svg>` },
-    { id: 'atom', svg: `<svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="6" fill="#f59e0b"/><ellipse cx="32" cy="32" rx="26" ry="10" stroke="#f59e0b" stroke-width="3" transform="rotate(30 32 32)"/><ellipse cx="32" cy="32" rx="26" ry="10" stroke="#f59e0b" stroke-width="3" transform="rotate(-30 32 32)"/></svg>` },
-    { id: 'matrix', svg: `<svg viewBox="0 0 64 64" fill="none"><rect x="10" y="10" width="44" height="44" rx="8" stroke="#10b981" stroke-width="3.5" fill="rgba(16,185,129,0.12)"/><path d="M22 22h20M22 32h20M22 42h12" stroke="#10b981" stroke-width="3" stroke-linecap="round"/></svg>` },
-    { id: 'core', svg: `<svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="22" stroke="#f43f5e" stroke-width="3.5" stroke-dasharray="6 4"/><circle cx="32" cy="32" r="10" fill="#f43f5e" fill-opacity="0.25" stroke="#f43f5e" stroke-width="3"/><polygon points="32,16 36,28 48,32 36,36 32,48 28,36 16,32 28,28" fill="#f43f5e"/></svg>` },
-    { id: 'pulse', svg: `<svg viewBox="0 0 64 64" fill="none"><path d="M6 34h12l6-16 12 32 8-20 6 8h8" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>` },
-    { id: 'shield', svg: `<svg viewBox="0 0 64 64" fill="none"><path d="M32 6l22 8v16c0 14-9 24-22 28C19 54 10 44 10 30V14l22-8z" stroke="#6366f1" stroke-width="3.5" fill="rgba(99,102,241,0.15)"/><path d="M24 30l6 6 12-12" stroke="#6366f1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>` },
-    { id: 'vortex', svg: `<svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="24" stroke="#ec4899" stroke-width="3"/><path d="M32 8a24 24 0 0 1 24 24M32 56a24 24 0 0 1-24-24" stroke="#ec4899" stroke-width="5" stroke-linecap="round"/><circle cx="32" cy="32" r="6" fill="#ec4899"/></svg>` },
-    { id: 'spark', svg: `<svg viewBox="0 0 64 64" fill="none"><path d="M32 4l4 24 24 4-24 4-4 24-4-24-24-4 24-4 4-24z" fill="rgba(245,158,11,0.2)" stroke="#f59e0b" stroke-width="3" stroke-linejoin="round"/></svg>` },
-    { id: 'nexus', svg: `<svg viewBox="0 0 64 64" fill="none"><circle cx="16" cy="16" r="6" stroke="#00f0ff" stroke-width="3"/><circle cx="48" cy="16" r="6" stroke="#00f0ff" stroke-width="3"/><circle cx="32" cy="48" r="6" stroke="#00f0ff" stroke-width="3"/><line x1="20" y1="18" x2="44" y2="18" stroke="#00f0ff" stroke-width="2.5"/><line x1="18" y1="21" x2="30" y2="44" stroke="#00f0ff" stroke-width="2.5"/><line x1="46" y1="21" x2="34" y2="44" stroke="#00f0ff" stroke-width="2.5"/></svg>` },
-    { id: 'cyber', svg: `<svg viewBox="0 0 64 64" fill="none"><path d="M12 20h40M12 32h40M12 44h40" stroke="#10b981" stroke-width="3" stroke-linecap="round"/><circle cx="20" cy="20" r="4" fill="#10b981"/><circle cx="44" cy="32" r="4" fill="#10b981"/><circle cx="28" cy="44" r="4" fill="#10b981"/></svg>` },
-    { id: 'hyper', svg: `<svg viewBox="0 0 64 64" fill="none"><rect x="12" y="12" width="40" height="40" rx="4" stroke="#a855f7" stroke-width="3"/><rect x="22" y="22" width="20" height="20" rx="2" stroke="#a855f7" stroke-width="2"/><line x1="12" y1="12" x2="22" y2="22" stroke="#a855f7" stroke-width="2"/><line x1="52" y1="12" x2="42" y2="22" stroke="#a855f7" stroke-width="2"/><line x1="12" y1="52" x2="22" y2="42" stroke="#a855f7" stroke-width="2"/><line x1="52" y1="52" x2="42" y2="42" stroke="#a855f7" stroke-width="2"/></svg>` }
-];
-
-/**
- * ============================================================================
- * CORE GAME CONTROLLER
+ * CORE GAME CONTROLLER (ASSETS FOLDER INTEGRATION)
  * ============================================================================
  */
 class MemoryGame {
@@ -263,12 +241,28 @@ class MemoryGame {
         this.sound = new SoundEngine();
         this.confetti = new ConfettiCannon('confetti-canvas');
 
+        // Define filenames located in your assets folder
+        this.cardImageFiles = [
+            'card1.png',
+            'card2.png',
+            'card3.png',
+            'card4.png',
+            'card5.png',
+            'card6.png',
+            'card7.png',
+            'card8.png',
+            'card9.png',
+            'card10.png',
+            'card11.png',
+            'card12.png'
+        ];
+
         // Difficulty Configuration
         this.difficulty = 'medium'; // 'easy' | 'medium' | 'hard'
         this.diffConfigs = {
-            easy: { pairs: 6, cols: 'easy', baseScore: 1000 },
-            medium: { pairs: 8, cols: 'medium', baseScore: 2000 },
-            hard: { pairs: 12, cols: 'hard', baseScore: 3500 }
+            easy: { pairs: 6, cols: 'easy' },     // Uses 6 images
+            medium: { pairs: 8, cols: 'medium' }, // Uses 8 images
+            hard: { pairs: 12, cols: 'hard' }     // Uses 12 images
         };
 
         // Game State Variables
@@ -386,7 +380,6 @@ class MemoryGame {
     }
 
     startNewGame() {
-        // Clear Timer and State
         this.stopTimer();
         this.resetTurnState();
         this.moves = 0;
@@ -405,14 +398,14 @@ class MemoryGame {
         // Reset HUD displays
         this.updateHUD();
 
-        // Generate and Shuffle Deck
-        const selectedIcons = CARD_ICONS.slice(0, this.totalPairs);
-        let deck = [...selectedIcons, ...selectedIcons];
+        // Select the slice of images needed for the current difficulty
+        const selectedImages = this.cardImageFiles.slice(0, this.totalPairs);
+        let deck = [...selectedImages, ...selectedImages];
         deck = this.shuffle(deck);
 
-        // Build DOM Card Elements
-        deck.forEach((item, index) => {
-            const card = this.createCardElement(item, index);
+        // Build DOM Card Elements using assets/ images
+        deck.forEach((imageName, index) => {
+            const card = this.createCardElement(imageName, index);
             this.dom.board.appendChild(card);
         });
 
@@ -420,10 +413,10 @@ class MemoryGame {
         this.startTimer();
     }
 
-    createCardElement(data, index) {
+    createCardElement(imageName, index) {
         const card = document.createElement('div');
         card.classList.add('card');
-        card.dataset.id = data.id;
+        card.dataset.id = imageName;
         card.style.animationDelay = `${index * 0.03}s`;
 
         card.innerHTML = `
@@ -436,7 +429,12 @@ class MemoryGame {
                     </svg>
                 </div>
                 <div class="card-face card-front">
-                    <div class="card-front-content">${data.svg}</div>
+                    <div class="card-front-content">
+                        <img src="assets/${imageName}" 
+                             alt="Card ${imageName}" 
+                             draggable="false"
+                             onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\\'font-weight:900; color:#00f0ff; font-size:1.8rem;\\'>${imageName.replace(/\.[^/.]+$/, '')}</span>';" />
+                    </div>
                 </div>
             </div>
         `;
@@ -450,20 +448,17 @@ class MemoryGame {
         if (card === this.firstCard) return;
         if (card.classList.contains('matched') || card.classList.contains('flipped')) return;
 
-        // Trigger Haptic Vibration on Touch Devices
         if (navigator.vibrate) navigator.vibrate(15);
 
         this.sound.playFlip();
         card.classList.add('flipped');
 
         if (!this.hasFlipped) {
-            // First Selection
             this.hasFlipped = true;
             this.firstCard = card;
             return;
         }
 
-        // Second Selection
         this.secondCard = card;
         this.moves++;
         this.updateHUD();
@@ -485,12 +480,10 @@ class MemoryGame {
         this.combo++;
         this.matches++;
 
-        // Calculate Dynamic Score
         const comboBonus = (this.combo - 1) * 150;
         const speedBonus = Math.max(50 - this.secondsElapsed, 10);
         this.score += 200 + comboBonus + speedBonus;
 
-        // Trigger Combo Toast if applicable
         if (this.combo > 1) {
             this.showComboToast(this.combo);
         }
@@ -504,7 +497,6 @@ class MemoryGame {
             this.updateHUD();
             this.resetTurnState();
 
-            // Check Victory Condition
             if (this.matches === this.totalPairs) {
                 this.handleGameVictory();
             }
@@ -513,8 +505,8 @@ class MemoryGame {
 
     handleMatchFailure() {
         this.lockBoard = true;
-        this.combo = 0; // Reset combo multiplier
-        this.score = Math.max(0, this.score - 20); // Minor mismatch penalty
+        this.combo = 0;
+        this.score = Math.max(0, this.score - 20);
 
         if (navigator.vibrate) navigator.vibrate(40);
         setTimeout(() => {
@@ -536,7 +528,6 @@ class MemoryGame {
         this.sound.playWinFanfare();
         this.confetti.fire();
 
-        // Calculate Stars and Final Score
         const minMoves = this.totalPairs;
         const accuracy = Math.round((minMoves / this.moves) * 100);
         let starsCount = 1;
@@ -547,7 +538,6 @@ class MemoryGame {
             starsCount = 2;
         }
 
-        // Check & Persist High Score
         const storageKey = `lumen_best_${this.difficulty}`;
         const prevBest = parseInt(localStorage.getItem(storageKey)) || 0;
         const isNewRecord = this.score > prevBest;
@@ -556,21 +546,17 @@ class MemoryGame {
             localStorage.setItem(storageKey, this.score);
         }
 
-        // Fill Victory Modal UI
         this.dom.vScore.textContent = this.score;
         this.dom.vTime.textContent = this.formatTime(this.secondsElapsed);
         this.dom.vMoves.textContent = this.moves;
         this.dom.vAccuracy.textContent = `${accuracy}%`;
         this.dom.winRecordBadge.classList.toggle('hidden', !isNewRecord);
 
-        // Reset Stars
         this.dom.stars.forEach(star => star.classList.remove('earned'));
 
-        // Show Modal
         setTimeout(() => {
             this.dom.victoryModal.classList.add('active');
 
-            // Sequenced Star Reveal
             for (let i = 0; i < starsCount; i++) {
                 setTimeout(() => {
                     this.dom.stars[i].classList.add('earned');
@@ -629,7 +615,6 @@ class MemoryGame {
     }
 
     shuffle(array) {
-        // Fisher-Yates Modern Shuffle
         const arr = [...array];
         for (let i = arr.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
