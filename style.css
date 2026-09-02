@@ -555,7 +555,7 @@ body {
     transform: rotateY(180deg);
     background: linear-gradient(145deg, #161f36, #0e1424);
     border: 1.5px solid rgba(255, 255, 255, 0.15);
-    padding: 2%;
+    padding: 0%;
 }
 
 .card-front-content {
